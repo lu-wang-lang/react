@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import TodoItem from './TodoItem'
+import axios from 'axios'
 import "./todo.css"
 
 class TodoList extends Component {
@@ -22,9 +23,17 @@ class TodoList extends Component {
           <input value={this.state.inputVal} onChange={this.handleChangeInputVal} className="input" />
           <button onClick={this.handleButton}>提交</button>
         </div>
-        <div> {this.initItem()} </div>
+        <div ref={(divr) => { this.ulRef = divr }}> {this.initItem()} </div>
       </Fragment >
     )
+  }
+
+  componentDidMount () {   //charlse最新版必须使用ip，不可以使用localhost
+    axios.get('/api/todoList').then(res => {
+      this.setState(() => ({ list: [...res.data] }))
+    }).catch(() => {
+      console.log('error');
+    })
   }
 
   initItem () {
@@ -49,7 +58,9 @@ class TodoList extends Component {
       this.setState((prevState) => ({
         list: [...prevState.list, prevState.inputVal],
         inputVal: ''
-      }))
+      }), () => {
+        console.log(this.ulRef.children.length);
+      })
     }
   }
 
