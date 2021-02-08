@@ -1,9 +1,8 @@
-import React, { Component, Fragment } from 'react'
-import 'antd/dist/antd.css';
-import { Input, Button, List } from 'antd';
+import React, { Component } from 'react'
 import './todo.css'
 import store from './store/index'
 import { getChangeInputValueAction, getAddItemAction, getDeleteItemAction } from './store/actionCreators'
+import AntTodoListUI from './AntTodoListUI'
 
 class AntTodoList extends Component {
   constructor(props) {
@@ -12,7 +11,7 @@ class AntTodoList extends Component {
 
     this.handleChangeInputVal = this.handleChangeInputVal.bind(this)
     this.handleBtnClick = this.handleBtnClick.bind(this)
-    // this.deleteItem = this.deleteItem.bind(this)
+    this.deleteItem = this.deleteItem.bind(this)
     this.handleStoreChange = this.handleStoreChange.bind(this)
 
     store.subscribe(this.handleStoreChange)
@@ -20,21 +19,13 @@ class AntTodoList extends Component {
 
   render () {
     return (
-      <Fragment>
-        <div className="main-container">
-          <Input placeholder="todo info" style={{ width: '100%', marginRight: '10px' }} value={this.state.inputValue} onChange={this.handleChangeInputVal} />
-          <Button type="primary" onClick={this.handleBtnClick}>提交</Button>
-        </div>
-        <List
-          dataSource={this.state.list}
-          renderItem={(item, index) => (
-            <List.Item onClick={this.deleteItem.bind(this, index)}>
-              {item}
-            </List.Item>
-          )}
-          style={{ padding: '10px' }}
-        />
-      </Fragment>
+      <AntTodoListUI
+        inputValue={this.state.inputValue}
+        list={this.state.list}
+        handleChangeInputVal={this.handleChangeInputVal}
+        handleBtnClick={this.handleBtnClick}
+        deleteItem={this.deleteItem}
+      />
     )
   }
 
