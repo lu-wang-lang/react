@@ -1,8 +1,9 @@
 import React, { Component } from 'react'
 import './todo.css'
 import store from './store/index'
-import { getChangeInputValueAction, getAddItemAction, getDeleteItemAction } from './store/actionCreators'
+import { getChangeInputValueAction, getAddItemAction, getDeleteItemAction, getInitListAction } from './store/actionCreators'
 import AntTodoListUI from './AntTodoListUI'
+import axios from 'axios'
 
 class AntTodoList extends Component {
   constructor(props) {
@@ -27,6 +28,13 @@ class AntTodoList extends Component {
         deleteItem={this.deleteItem}
       />
     )
+  }
+
+  componentDidMount () {
+    axios.get('/api/todoList').then(res => {
+      const action = getInitListAction(res.data)
+      store.dispatch(action)
+    })
   }
 
   handleChangeInputVal (e) {
