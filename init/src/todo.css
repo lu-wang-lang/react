@@ -34,3 +34,9 @@
 .fade-exit-done{
   opacity: 0;
 }
+
+.main-container{
+  padding: 10px;
+  display: flex;
+  align-items: center;
+}
