@@ -1,26 +1,31 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { getChangeInputValueAction, getAddItemAction, getDeleteItemAction } from './store/actionCreators'
+import { getChangeInputValueAction, getAddItemAction, getDeleteItemAction, getInitList } from './store/actionCreators'
 
 class TodoList extends Component {
   render () {
+    let { inputValue, list, handleChangeInputValue, handleClickBtn, handleDeleteItem } = this.props
     return (
       <div>
         <div>
-          <input value={this.props.inputValue} onChange={this.props.handleChangeInputValue} />
-          <button onClick={this.props.handleClickBtn}> 提交</button>
+          <input value={inputValue} onChange={handleChangeInputValue} />
+          <button onClick={handleClickBtn}> 提交</button>
         </div>
         <ul>
           {
-            this.props.list.map((item, index) => {
+            list.map((item, index) => {
               return (
-                <li key={index} onClick={() => { this.props.handleDeleteItem(index) }}>{item}</li>
+                <li key={index} onClick={() => { handleDeleteItem(index) }}>{item}</li>
               )
             })
           }
         </ul>
       </div>
     )
+  }
+
+  componentDidMount () {
+    this.props.initList()
   }
 }
 
@@ -42,6 +47,10 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     handleDeleteItem (index) {
       const action = getDeleteItemAction(index)
+      dispatch(action)
+    },
+    initList () {
+      const action = getInitList()
       dispatch(action)
     }
   }
