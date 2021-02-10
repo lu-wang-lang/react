@@ -1,8 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import App from './App';
-// import TodoList from './TodoList'
-// import Transition from './Transition'
-import AntTodoList from './AntTodoList'
+import App from './App'
 
-ReactDOM.render(<AntTodoList />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
